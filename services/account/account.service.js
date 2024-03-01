@@ -29,8 +29,8 @@ module.exports = {
 			params: {
 				body: {
 					$$type: "object",
-					email: "string",
-					password: "string"
+					email: { type: "string", empty: false },
+					password: { type: "string", empty: false, min: 8, max: 16 }
 				}
 			},
 			handler: require("./actions/login.action")
@@ -55,7 +55,7 @@ module.exports = {
 			params: {
 				body: {
 					$$type: "object",
-					googleAccessToken: "string",
+					googleAccessToken: { type: "string", empty: false },
 				}
 			},
 			handler: require("./actions/loginOauth2.action")
@@ -81,7 +81,7 @@ module.exports = {
 			params: {
 				body: {
 					$$type: "object",
-					email: "string"
+					email: { type: "string", empty: false }
 				}
 			},
 			handler: require("./actions/sendVerifyCode.action")
@@ -94,10 +94,10 @@ module.exports = {
 			params: {
 				body: {
 					$$type: "object",
-					username: "string",
-					email: "string",
-					password: { type: "string", min: 8, max: 16 },
-					activeCode: "string"
+					username: { type: "string", empty: false },
+					email: { type: "string", empty: false },
+					password: { type: "string", min: 8, max: 16, empty: false },
+					activeCode: { type: "number", empty: false }
 				}
 			},
 			handler: require("./actions/register.action")

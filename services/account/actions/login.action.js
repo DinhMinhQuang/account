@@ -9,19 +9,29 @@ module.exports = async function (ctx) {
 	try {
 		const { email, password } = _.get(ctx, "params.body");
 
+		const lowerEmail = _.toLower(email);
+		const emailRegex = /\S+@\S+\.\S+/;
+		if (!lowerEmail.match(emailRegex)) {
+			return {
+				code: -1,
+				message: "Invalid email address"
+			};
+		}
 
-		const account = await this.broker.call("v1.accountModel.findOne", [{ email }]);
+		const account = await this.broker.call("v1.accountModel.findOne", [{ email: lowerEmail }]);
 
 		if (_.get(account, "id", null) === null) {
 			return {
 				code: -1,
-				message: "Account not found"
+				message: "Wrong email or password"
 			};
 		}
 
 		const RedisCache = this.redisCache(); // define utility
 		const check = _.toNumber(await RedisCache.get({ key: account.id })); /// set default === 0
 		const ttl = await RedisCache.ttl({ key: `lockLoginTime_${account.id}` });
+		console.log(check);
+		console.log(ttl);
 
 		if (check >= 3 && ttl > 0) {
 			let duration = moment.duration(ttl, "seconds").format("m:ss");
@@ -45,8 +55,9 @@ module.exports = async function (ctx) {
 
 		if (this.comparePassword(password, account.password) === false) {
 			await RedisCache.set({ key: account.id, value: check + 1 });
-			if (check + 1 === 3) {
-				await RedisCache.set({ key: `lockLoginTime_${account.id}`, value: check + 1, ttl: 5 * 60 });
+			if (check + 1 >= 3) {
+				console.log("gà");
+				await RedisCache.set({ key: `lockLoginTime_${account.id}`, value: check + 1, ttl: 60 });
 			}
 			await RedisCache.set({
 				key: account.id, value: check + 1
