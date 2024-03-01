@@ -45,6 +45,19 @@ module.exports = {
 			handler: require("./actions/oAuth2.action")
 		},
 		callBackOauth2: {
+			rest: {
+				method: "GET",
+				path: "google/callback"
+			},
+			params: {
+				query: {
+					$$type: "object",
+					code: { type: "string", empty: false },
+					scope: { type: "string", empty: false },
+					authuser: { type: "string", empty: false },
+					prompt: { type: "string", empty: false }
+				}
+			},
 			handler: require("./actions/oAuth2CallBack.action")
 		},
 		loginoAuth2Account: {

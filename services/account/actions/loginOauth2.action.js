@@ -5,7 +5,7 @@ const moment = require("moment");
 
 module.exports = async function (ctx) {
 	try {
-		const { googleAccessToken } = ctx.params;
+		const { googleAccessToken } = ctx.params.body;
 
 		const requestInfo = await this.requestAPI("https://www.googleapis.com/oauth2/v3/userinfo", null, {
 			Authorization: `Bearer ${googleAccessToken}`,
