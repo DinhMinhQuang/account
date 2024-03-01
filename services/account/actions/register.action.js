@@ -57,7 +57,7 @@ module.exports = async function (ctx) {
 
 		if (_.get(activeCodeSearch, "id", null) === null) {
 			if (count3time >= 3) {
-				await redisCache.set({ key: `${key}-count3times`, value: `${count3time + 1}`, ttl: 5 * 60 });
+				await redisCache.set({ key: `${key}-count3times`, value: `${count3time + 1}`, ttl: 60 });
 				await redisCache.set({ key, value: `${1}`, ttl: 60 });
 			} else {
 				await redisCache.set({ key: `${key}-count3times`, value: `${count3time + 1}` });
