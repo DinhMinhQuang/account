@@ -30,8 +30,6 @@ module.exports = async function (ctx) {
 		const RedisCache = this.redisCache(); // define utility
 		const check = _.toNumber(await RedisCache.get({ key: account.id })); /// set default === 0
 		const ttl = await RedisCache.ttl({ key: `lockLoginTime_${account.id}` });
-		console.log(check);
-		console.log(ttl);
 
 		if (check >= 3 && ttl > 0) {
 			let duration = moment.duration(ttl, "seconds").format("m:ss");
@@ -56,7 +54,6 @@ module.exports = async function (ctx) {
 		if (this.comparePassword(password, account.password) === false) {
 			await RedisCache.set({ key: account.id, value: check + 1 });
 			if (check + 1 >= 3) {
-				console.log("gà");
 				await RedisCache.set({ key: `lockLoginTime_${account.id}`, value: check + 1, ttl: 60 });
 			}
 			await RedisCache.set({
