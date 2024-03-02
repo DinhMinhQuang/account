@@ -21,7 +21,7 @@ module.exports = {
 			registry: {
 				auth: {
 					name: "Default",
-					jwtKey: "gQ8sOERVGmkbNEvFedMy3XWrshmSX0mJsEy1izzNMrY"
+					jwtKey: process.env.JWT_SECRECT
 				}
 			},
 			handler: require("./actions/default.action")
