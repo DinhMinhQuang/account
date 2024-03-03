@@ -110,7 +110,7 @@ module.exports = {
 					username: { type: "string", empty: false },
 					email: { type: "string", empty: false },
 					password: { type: "string", min: 8, max: 16, empty: false },
-					activeCode: { type: "number", empty: false }
+					activeCode: { type: "string", empty: false }
 				}
 			},
 			handler: require("./actions/register.action")
