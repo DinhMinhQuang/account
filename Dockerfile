@@ -1,14 +1,13 @@
 FROM node:20
-FROM m1nhquang/rabbitmq-delayed:tagname
 
 ENV NODE_ENV=production
 
 RUN mkdir /app
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
-RUN npm install --production
+RUN npm install --force --production
 
 COPY . .
 
