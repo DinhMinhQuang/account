@@ -15,7 +15,7 @@ module.exports = {
 	/**
 	 * Dependencies
 	 */
-	dependencies: [],
+	dependencies: ["v1.accountModel", "v1.activeCodeModel"],
 
 	/**
 	 * Actions
@@ -145,10 +145,7 @@ module.exports = {
 	 * Service started lifecycle event handler
 	 */
 	async started() {
-		setTimeout(async () => {
-			const test = await this.broker.call("v1.account.oAuth2", {});
-			console.log(test);
-		});
+
 	},
 
 	/**
