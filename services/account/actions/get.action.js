@@ -22,6 +22,7 @@ module.exports = async function (ctx) {
 		};
 
 		delete account.password;
+		delete account._id;
 
 		return {
 			code: 1,
